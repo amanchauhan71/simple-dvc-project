@@ -1,0 +1,43 @@
+schema: '2.0'
+stages:
+  load_data:
+    cmd: python src/stage_01_load_ans_save.py --config=params.yaml
+    deps:
+    - path: src/stage_01_load_ans_save.py
+      md5: b9c3b89f862030cb5b9feb88aa2d4bd0
+      size: 1210
+    params:
+      params.yaml:
+        artifacts.raw_local_data: artifacts/raw_local_data_dir/data.csv
+        data_source.s3_source: https://gist.githubusercontent.com/tijptjik/9408623/raw/b237fa5848349a14a14e5d4107dc7897c21951f5/wine.csv
+    outs:
+    - path: artifacts/raw_local_data_dir/data.csv
+      md5: 58883788132daca95dcb20df1352ad0a
+      size: 11427
+  split_data:
+    cmd: python src/stage_02_split_data.py --config=params.yaml
+    deps:
+    - path: artifacts/raw_local_data_dir/data.csv
+      md5: 58883788132daca95dcb20df1352ad0a
+      size: 11427
+    - path: src/stage_02_split_data.py
+      md5: 8c6166df66af20a5f7336c3619d4c7fc
+      size: 1483
+    - path: src/utils/common_utils.py
+      md5: cb8ba72edf16bfb75102ee78d41684e5
+      size: 957
+    params:
+      params.yaml:
+        artifacts.raw_local_data: artifacts/raw_local_data_dir/data.csv
+        artifacts.split_data.processed_data_dir: artifacts/processed_data
+        artifacts.split_data.test_path: artifacts/processed_data/test.csv
+        artifacts.split_data.train_path: artifacts/processed_data/train.csv
+        base.random_state: 42
+        base.test_size: 0.2
+    outs:
+    - path: artifacts/processed_data/test.csv
+      md5: b37cc2d8f244a0ee4a1f701e283d675c
+      size: 2383
+    - path: artifacts/processed_data/train.csv
+      md5: a99c380c445954efffa0b213f0bd9c13
+      size: 9155
