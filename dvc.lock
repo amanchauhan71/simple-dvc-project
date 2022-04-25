@@ -9,23 +9,23 @@ stages:
     params:
       params.yaml:
         artifacts.raw_local_data: artifacts/raw_local_data_dir/data.csv
-        data_source.s3_source: https://gist.githubusercontent.com/tijptjik/9408623/raw/b237fa5848349a14a14e5d4107dc7897c21951f5/wine.csv
+        data_source.s3_source: https://raw.githubusercontent.com/shrikant-temburwar/Wine-Quality-Dataset/master/winequality-red.csv
     outs:
     - path: artifacts/raw_local_data_dir/data.csv
-      md5: 58883788132daca95dcb20df1352ad0a
-      size: 11427
+      md5: 7c92f1ee593c0fbd2ad8c67ba5c446df
+      size: 93599
   split_data:
     cmd: python src/stage_02_split_data.py --config=params.yaml
     deps:
     - path: artifacts/raw_local_data_dir/data.csv
-      md5: 58883788132daca95dcb20df1352ad0a
-      size: 11427
+      md5: 7c92f1ee593c0fbd2ad8c67ba5c446df
+      size: 93599
     - path: src/stage_02_split_data.py
       md5: 8c6166df66af20a5f7336c3619d4c7fc
       size: 1483
     - path: src/utils/common_utils.py
-      md5: cb8ba72edf16bfb75102ee78d41684e5
-      size: 957
+      md5: ffede1fcf6a94fe5915306a31e875b00
+      size: 1187
     params:
       params.yaml:
         artifacts.raw_local_data: artifacts/raw_local_data_dir/data.csv
@@ -36,8 +36,8 @@ stages:
         base.test_size: 0.2
     outs:
     - path: artifacts/processed_data/test.csv
-      md5: b37cc2d8f244a0ee4a1f701e283d675c
-      size: 2383
+      md5: b31a4073fa82bc444fd5683cb5cf7e76
+      size: 18832
     - path: artifacts/processed_data/train.csv
-      md5: a99c380c445954efffa0b213f0bd9c13
-      size: 9155
+      md5: 0196b80fbeb701453fe0052e35635db2
+      size: 74914

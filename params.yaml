@@ -5,7 +5,7 @@ base:
   test_size: 0.2
 
 data_source:
-  s3_source: https://gist.githubusercontent.com/tijptjik/9408623/raw/b237fa5848349a14a14e5d4107dc7897c21951f5/wine.csv
+  s3_source: https://raw.githubusercontent.com/shrikant-temburwar/Wine-Quality-Dataset/master/winequality-red.csv
 
 artifacts:
   artifacts_dir: artifacts
@@ -17,3 +17,18 @@ artifacts:
     processed_data_dir: artifacts/processed_data
     train_path: artifacts/processed_data/train.csv
     test_path: artifacts/processed_data/test.csv
+
+  reports:
+    reports_dir: artifacts/report
+    params: artifacts/report/params.json
+    scores: artifacts/report/scores.json
+
+  model_dir: artifacts/saved_models
+  model_path: artifacts/saved_models/model.joblib
+
+
+estimators:
+  ElasticNet:
+    params:
+      alpha: 0.7
+      l1_ratio: 0.4
