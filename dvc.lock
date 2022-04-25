@@ -41,3 +41,52 @@ stages:
     - path: artifacts/processed_data/train.csv
       md5: 0196b80fbeb701453fe0052e35635db2
       size: 74914
+  train:
+    cmd: python src/stage_03_train.py --config=params.yaml
+    deps:
+    - path: artifacts/processed_data/train.csv
+      md5: 0196b80fbeb701453fe0052e35635db2
+      size: 74914
+    - path: src/stage_03_train.py
+      md5: 3bc11f3fcda82ace9b1554d856434df2
+      size: 1973
+    - path: src/utils/common_utils.py
+      md5: ffede1fcf6a94fe5915306a31e875b00
+      size: 1187
+    params:
+      params.yaml:
+        artifacts.split_data.train_path: artifacts/processed_data/train.csv
+        base.random_state: 42
+        base.target_col: quality
+        estimators.ElasticNet.params.alpha: 0.7
+        estimators.ElasticNet.params.l1_ratio: 0.4
+    outs:
+    - path: artifacts/report/params.json
+      md5: 1a1eea97e93a98c1c77e2c184dea8763
+      size: 44
+    - path: artifacts/saved_models/model.joblib
+      md5: 8353a5633f36600e10c344d82d9b8858
+      size: 1316
+  evaluate:
+    cmd: python src/stage_04_evaluate.py --config=params.yaml
+    deps:
+    - path: artifacts/processed_data/test.csv
+      md5: b31a4073fa82bc444fd5683cb5cf7e76
+      size: 18832
+    - path: artifacts/saved_models/model.joblib
+      md5: 8353a5633f36600e10c344d82d9b8858
+      size: 1316
+    - path: src/stage_04_evaluate.py
+      md5: e87241add22ef9e95d5d5b1cfdec1a63
+      size: 1642
+    - path: src/utils/common_utils.py
+      md5: ffede1fcf6a94fe5915306a31e875b00
+      size: 1187
+    params:
+      params.yaml:
+        artifacts.split_data.test_path: artifacts/processed_data/test.csv
+        base.target_col: quality
+    outs:
+    - path: artifacts/report/scores.json
+      md5: fc237cb87efe1f654a10debf0b822c40
+      size: 100
